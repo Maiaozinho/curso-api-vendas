@@ -1,7 +1,11 @@
 import { randomUUID } from 'node:crypto'
 import { NotFoundError } from '../errors/not-found-error'
-import { RepositoryInterface, SearchInput } from './repository.interface'
-import { promises } from 'node:dns'
+import {
+  RepositoryInterface,
+  SearchInput,
+  SearchOutput,
+} from './repository.interface'
+//import { promises } from 'node:dns'
 
 export type ModelProps = {
   id?: string
@@ -21,7 +25,7 @@ export abstract class InMemoryRepository<Model extends ModelProps>
   create(props: CreateProps): Model {
     const model = {
       id: randomUUID(),
-      create_at: new Date(),
+      created_at: new Date(),
       updated_at: new Date(),
       ...props,
     }
