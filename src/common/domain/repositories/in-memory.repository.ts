@@ -20,7 +20,6 @@ export abstract class InMemoryRepository<Model extends ModelProps>
   implements RepositoryInterface<Model, CreateProps>
 {
   items: Model[] = []
-  sortableFields: string[] = []
 
   create(props: CreateProps): Model {
     const model = {
