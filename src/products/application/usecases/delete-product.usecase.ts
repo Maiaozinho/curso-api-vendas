@@ -1,13 +1,13 @@
 import { ProductsRepository } from '@/products/domain/repositories/products.repository'
-import { inject, injectable } from 'tsyringe'
-import { ProductOutput } from '../dtos/product-output.dto'
 
-export namespace GetProductUseCase {
+import { inject, injectable } from 'tsyringe'
+
+export namespace DeleteProductUseCase {
   export type Input = {
     id: string
   }
 
-  export type Output = ProductOutput
+  export type Output = void
 
   @injectable()
   export class UseCase {
@@ -17,11 +17,7 @@ export namespace GetProductUseCase {
     ) {}
 
     async execute(input: Input): Promise<Output> {
-      const product: ProductOutput = await this.productsRepository.findById(
-        input.id,
-      )
-
-      return product
+      await this.productsRepository.delete(input.id)
     }
   }
 }

@@ -21,7 +21,7 @@ export namespace CreateProductUseCase {
 
     async execute(input: Input): Promise<Output> {
       if (!input.name || input.price <= 0 || input.quantity <= 0) {
-        throw new BadRequestError('input data not provide or invalid')
+        throw new BadRequestError('Input data not provided or invalid')
       }
 
       await this.productsRepository.conflictingName(input.name)
