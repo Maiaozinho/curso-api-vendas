@@ -1,32 +1,75 @@
-import { CreateProductUseCase } from '@/products/application/usecases/create-product.usecase'
-import { ProductsTypeormRepository } from '@/products/infrastructure/typeorm/repositories/products-typeorm.repository'
-import { container } from 'tsyringe'
-import { Product } from '@/products/infrastructure/typeorm/entities/products.entity'
-import { dataSource } from '@/common/infrastructure/typeorm'
-import { GetProductUseCase } from '@/products/application/usecases/get-product.usecase'
-import { UpdateProductUseCase } from '@/products/application/usecases/update-product.usecase'
-import { DeleteProductUseCase } from '@/products/application/usecases/delete-product.usecase'
-import { SearchProductUseCase } from '@/products/application/usecases/search-product.usecase'
+import { MigrationInterface, QueryRunner, Table } from 'typeorm'
 
-container.registerSingleton('ProductRepository', ProductsTypeormRepository)
-container.registerSingleton(
-  'CreateProductUseCase',
-  CreateProductUseCase.UseCase,
-)
-container.registerInstance(
-  'ProductsDefaultTypeormRepository',
-  dataSource.getRepository(Product),
-)
-container.registerSingleton('GetProductUseCase', GetProductUseCase.UseCase)
-container.registerSingleton(
-  'UpdateProductUseCase',
-  UpdateProductUseCase.UseCase,
-)
-container.registerSingleton(
-  'DeleteProductUseCase',
-  DeleteProductUseCase.UseCase,
-)
-container.registerSingleton(
-  'SearchProductUseCase',
-  SearchProductUseCase.UseCase,
-)
+export class CreateUsers1733589526857 implements MigrationInterface {
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
+
+    await queryRunner.createTable(
+      new Table({
+        name: 'users',
+
+        columns: [
+          {
+            name: 'id',
+
+            type: 'uuid',
+
+            isPrimary: true,
+
+            generationStrategy: 'uuid',
+
+            default: 'uuid_generate_v4()',
+          },
+
+          {
+            name: 'name',
+
+            type: 'varchar',
+          },
+
+          {
+            name: 'email',
+
+            type: 'varchar',
+
+            isUnique: true,
+          },
+
+          {
+            name: 'password',
+
+            type: 'varchar',
+          },
+
+          {
+            name: 'avatar',
+
+            type: 'varchar',
+
+            isNullable: true,
+          },
+
+          {
+            name: 'created_at',
+
+            type: 'timestamp',
+
+            default: 'CURRENT_TIMESTAMP',
+          },
+
+          {
+            name: 'updated_at',
+
+            type: 'timestamp',
+
+            default: 'CURRENT_TIMESTAMP',
+          },
+        ],
+      }),
+    )
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable('users')
+  }
+}
